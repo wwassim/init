@@ -51,45 +51,7 @@ app.get("/user/:id", async (req, res) => {
   }
 });
 
-app.put("/user/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { name, lastName, email } = req.body;
-    if (!id) {
-      throw new Error("id is required");
-    }
-    if (!name || !lastName || !email) {
-      throw new Error("name , lastName and email are required");
-    }
-    const user = await Users.findByIdAndUpdate(
-      id,
-      { name, lastName, email },
-      { new: true }
-    );
 
-    if (!user) {
-      throw new Error("there is no user with this id");
-    }
-    return res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json("InternalError ");
-  }
-});
-
-app.delete("/user/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    if (!id) {
-      throw new Error("id is required");
-    }
-
-    const user = await Users.findByIdAndDelete(id);
-
-    return res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json("InternalError ");
-  }
-});
 
 app.listen(process.env.PORT, () => {
   console.log("server running on port " + process.env.PORT);
